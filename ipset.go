@@ -88,12 +88,8 @@ func (set *IPSet) Swap(from string, to string) error {
 
 func (set *IPSet) run(args ...string) error {
 	var stderr bytes.Buffer
-	cmd := exec.Cmd{
-		Path:   set.Path,
-		Args:   append([]string{set.Path}, args...),
-		Stderr: &stderr,
-	}
-
+	cmd := exec.Command("/usr/bin/sudo",append([]string{set.Path},args...)...)
+	cmd.Stderr = &stderr
 	if err := cmd.Run(); err != nil {
 		return errors.New(stderr.String())
 	}
